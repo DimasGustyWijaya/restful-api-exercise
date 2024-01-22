@@ -7,6 +7,7 @@ import (
 	"restful-api/app"
 	"restful-api/controller"
 	"restful-api/helper"
+	"restful-api/middleware"
 	"restful-api/repository"
 	"restful-api/service"
 )
@@ -22,7 +23,7 @@ func main() {
 	router := app.NewRouter(userControler)
 
 	server := http.Server{
-		Handler: router,
+		Handler: middleware.NewAuthMiddleware(router),
 		Addr:    "localhost:4400",
 	}
 
