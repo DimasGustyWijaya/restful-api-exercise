@@ -1,0 +1,159 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Restful-Api",
+    "description": "Golang Simple Restful-Api",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4400/api"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "description": "Create New User",
+        "summary": "Create New User",
+        "requestBody": {
+          "content": {
+            }
+          },
+        "responses": {
+          "200": {
+            "description": "Succes Add New User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+        }
+      }
+      }
+    },
+    "/user/{userId}": {
+      "post": {
+        "description": "Create New User",
+        "summary": "Create New User",
+        "requestBody": {
+          "content": {
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succes Add New User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete User By Id",
+        "summary": "Delete User By Id",
+        "requestBody": {
+          "content": {
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succes Delete Selected User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get user by Id",
+        "summary": "Get user by Id",
+        "requestBody": {
+          "content": {
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succes Get user ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update user by Id",
+        "summary": "update user by Id",
+        "requestBody": {
+          "content": {
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succes Update user ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
