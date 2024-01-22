@@ -17,11 +17,6 @@ type UserLogin struct {
 	Id   int    `json:"id"`
 }
 
-type AuthUser struct {
-	Name string `json:"name"`
-	Id   int    `json:"id"`
-}
-
 func NewAuthMiddleware(handler http.Handler) *AuthMiddleware {
 	return &AuthMiddleware{Handler: handler}
 }
