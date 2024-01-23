@@ -5,13 +5,18 @@ import (
 	"restful-api/controller"
 )
 
-func NewRouter(controller controller.UserController) *httprouter.Router {
+func NewRouter(user controller.UserController, product controller.ProductController) *httprouter.Router {
 	router := httprouter.New()
 
-	router.POST("/api/user", controller.Create)
-	router.PUT("/api/user/:userId", controller.Update)
-	router.DELETE("/api/user/:userId", controller.Delete)
-	router.GET("/api/user/:userId", controller.FindById)
+	// User Handler
+	router.POST("/api/user", user.Create)
+	router.PUT("/api/user/:userId", user.Update)
+	router.DELETE("/api/user/:userId", user.Delete)
+	router.GET("/api/user/:userId", user.FindById)
+
+	// Product Handler
+	router.POST("/api/product", product.Create)
+	router.PUT("/api/product/:productId", product.Update)
 
 	return router
 

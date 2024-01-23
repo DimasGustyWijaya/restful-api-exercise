@@ -35,11 +35,15 @@ func setupRouter() http.Handler {
 	db := setupDB()
 	validate := validator.New()
 
+	prodRepository := repository.NewProductRepository()
+	prodService := service.NewProductService(prodRepository, db, validate)
+	prodControler := controller.NewProductController(prodService)
+
 	userRepository := repository.NewUserRepository()
 	userService := service.NewUserService(db, userRepository, validate)
 	userControler := controller.NewUserController(userService)
 
-	router := app.NewRouter(userControler)
+	router := app.NewRouter(userControler, prodControler)
 
 	return middleware.NewAuthMiddleware(router)
 
@@ -50,6 +54,22 @@ func TestCreateUser(t *testing.T) {
 
 	requestBody := strings.NewReader(`{"name":"jiraiya"}`)
 	request := httptest.NewRequest(http.MethodPost, "http://localhost:4400/api/user", requestBody)
+	request.Header.Add("Content-Type", "application/json")
+	request.Header.Add("X-API-Auth", "jeffersoN")
+
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	assert.Equal(t, 200, recorder.Result().StatusCode)
+
+}
+
+func TestCreateProduct(t *testing.T) {
+	router := setupRouter()
+
+	requestBody := strings.NewReader(`{"name":"jigen","qty" : 2}`)
+	request := httptest.NewRequest(http.MethodPost, "http://localhost:4400/api/product", requestBody)
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("X-API-Auth", "jeffersoN")
 

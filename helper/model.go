@@ -11,3 +11,11 @@ func ToUserResponse(user model.User) web.UserResponse {
 		Name: user.Name,
 	}
 }
+
+func ToProductResponse(prod model.Product) web.ProductResponse {
+	return web.ProductResponse{
+		IdProduct: prod.IdProduct,
+		Name:      prod.Name,
+		Qty:       prod.Qty,
+	}
+}
