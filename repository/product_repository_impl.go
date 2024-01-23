@@ -6,6 +6,7 @@ import (
 	"errors"
 	"restful-api/helper"
 	"restful-api/model"
+	"sync"
 )
 
 type ProuctRepositoryImpl struct {
@@ -17,7 +18,13 @@ func NewProductRepository() ProductRepository {
 
 func (p ProuctRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, product model.Product) model.Product {
 	SQL := "INSERT INTO product(name,qty) VALUES (?,?)"
+
+	locker := sync.Mutex{}
+
+	locker.Lock()
 	result, err := tx.ExecContext(ctx, SQL, product.Name, product.Qty)
+	locker.Unlock()
+
 	helper.PanicIfError(err)
 
 	id, erre := result.LastInsertId()
@@ -30,7 +37,13 @@ func (p ProuctRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, product mode
 
 func (p ProuctRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, product model.Product) model.Product {
 	SQL := "UPDATE product SET name = (?) WHERE id = (?)"
+
+	locker := sync.Mutex{}
+
+	locker.Lock()
 	_, err := tx.ExecContext(ctx, SQL, product.Name, product.IdProduct)
+	locker.Unlock()
+
 	helper.PanicIfError(err)
 
 	return product
@@ -38,6 +51,7 @@ func (p ProuctRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, product mo
 
 func (p ProuctRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, pruductId int) error {
 	SQL := "DELETE FROM product WHERE id = (?)"
+
 	_, err := tx.ExecContext(ctx, SQL, pruductId)
 	helper.PanicIfError(err)
 
@@ -45,8 +59,14 @@ func (p ProuctRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, pruductId 
 }
 
 func (p ProuctRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, productId int) (model.Product, error) {
-	SQL := "SELECT id,name FROM user WHERE id = (?)"
+	SQL := "SELECT idproduct,name,qty FROM  WHERE id = (?)"
+
+	lockRead := sync.RWMutex{}
+
+	lockRead.RLock()
 	rows, err := tx.QueryContext(ctx, SQL, productId)
+	lockRead.RUnlock()
+
 	helper.PanicIfError(err)
 	defer rows.Close()
 

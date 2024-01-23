@@ -17,6 +17,8 @@ func NewRouter(user controller.UserController, product controller.ProductControl
 	// Product Handler
 	router.POST("/api/product", product.Create)
 	router.PUT("/api/product/:productId", product.Update)
+	router.DELETE("/api/product/:productId", product.Delete)
+	router.GET("/api/product/:productId", product.FindById)
 
 	return router
 

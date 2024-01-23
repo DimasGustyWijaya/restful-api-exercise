@@ -16,11 +16,15 @@ func main() {
 	db := app.GetConnection()
 	validate := validator.New()
 
+	prodRepository := repository.NewProductRepository()
+	prodService := service.NewProductService(prodRepository, db, validate)
+	prodControler := controller.NewProductController(prodService)
+
 	userRepository := repository.NewUserRepository()
 	userService := service.NewUserService(db, userRepository, validate)
 	userControler := controller.NewUserController(userService)
 
-	router := app.NewRouter(userControler)
+	router := app.NewRouter(userControler, prodControler)
 
 	server := http.Server{
 		Handler: middleware.NewAuthMiddleware(router),
